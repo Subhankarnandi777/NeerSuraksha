@@ -11,12 +11,8 @@ class WaterTestBase(BaseModel):
     coliform: Optional[float] = None
 
 class WaterTestCreate(WaterTestBase):
-<<<<<<< HEAD
     id: str
     date: str
-=======
-    pass
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 
 class WaterTest(WaterTestBase):
     id: str

@@ -285,7 +285,6 @@ def evaluate(depth_m: float | None, *, faecal_presence: str | None = None,
                 detail=dict(contamination=c, health=h, availability=a))
 
 
-<<<<<<< HEAD
 def compute_vwsi(db, source, health_risk: str, aquifer_trend: str) -> str:
     """Persist a mobile-app source status from the current VWSI inputs.
 
@@ -342,8 +341,6 @@ def compute_vwsi(db, source, health_risk: str, aquifer_trend: str) -> str:
     return app_status
 
 
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 def _explain(margin, c, h, cfg) -> str:
     """Plain-language reason a judge or district officer can read aloud."""
     if margin is None:

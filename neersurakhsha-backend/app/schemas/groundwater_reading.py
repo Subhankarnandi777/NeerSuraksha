@@ -6,12 +6,8 @@ class GroundwaterReadingBase(BaseModel):
     water_level_depth: float
 
 class GroundwaterReadingCreate(GroundwaterReadingBase):
-<<<<<<< HEAD
     id: str
     date: str
-=======
-    pass
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 
 class GroundwaterReading(GroundwaterReadingBase):
     id: str

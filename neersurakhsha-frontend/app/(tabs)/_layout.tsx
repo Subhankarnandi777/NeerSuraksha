@@ -1,8 +1,11 @@
 import { Tabs } from 'expo-router';
 import { colors } from '../../theme/colors';
 import { Ionicons } from '@expo/vector-icons';
+import { useLanguage } from '../../hooks/useLanguage';
 
 export default function TabsLayout() {
+  const { t } = useLanguage();
+
   return (
     <Tabs screenOptions={{ 
       headerShown: false,
@@ -19,49 +22,46 @@ export default function TabsLayout() {
       <Tabs.Screen 
         name="home" 
         options={{
-          title: 'Home',
+          title: t('home'),
           tabBarIcon: ({ color, size }) => <Ionicons name="home-outline" color={color} size={size} />
         }} 
       />
       <Tabs.Screen 
         name="map" 
         options={{
-          title: 'Map',
+          title: t('map'),
           tabBarIcon: ({ color, size }) => <Ionicons name="map-outline" color={color} size={size} />
         }} 
       />
       <Tabs.Screen 
         name="alerts/index" 
         options={{
-          title: 'Alerts',
+          title: t('alerts'),
           tabBarIcon: ({ color, size }) => <Ionicons name="notifications-outline" color={color} size={size} />
         }} 
       />
       <Tabs.Screen 
         name="sync" 
         options={{
-          title: 'Sync',
+          title: t('sync'),
           tabBarIcon: ({ color, size }) => <Ionicons name="sync-outline" color={color} size={size} />
         }} 
       />
       <Tabs.Screen 
         name="profile" 
         options={{
-          title: 'Account',
+          title: t('account'),
           tabBarIcon: ({ color, size }) => <Ionicons name="person-outline" color={color} size={size} />
         }} 
       />
       <Tabs.Screen 
-<<<<<<< HEAD
         name="awareness" 
         options={{
-          title: 'Awareness',
+          title: t('awareness'),
           tabBarIcon: ({ color, size }) => <Ionicons name="book-outline" color={color} size={size} />
         }} 
       />
       <Tabs.Screen 
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
         name="alerts/[alertId]" 
         options={{
           href: null, // Hide from tab bar

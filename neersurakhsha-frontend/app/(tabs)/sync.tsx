@@ -5,10 +5,12 @@ import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useAppStore } from '../../store/main.store';
+import { useLanguage } from '../../hooks/useLanguage';
 import { useState } from 'react';
 
 export default function SyncCenter() {
   const { pendingSyncCount, syncData, healthCases } = useAppStore();
+  const { t } = useLanguage();
   const [isSyncing, setIsSyncing] = useState(false);
 
   const handleSync = async () => {
@@ -26,43 +28,43 @@ export default function SyncCenter() {
     <View style={[styles.safeArea, { paddingTop: insets.top }]}>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.title}>Sync Center</Text>
+          <Text style={styles.title}>{t('syncCenter')}</Text>
         </View>
 
         <View style={[styles.content, isTablet && { maxWidth: 600, alignSelf: 'center', width: '100%' }]}>
           <View style={styles.networkCard}>
-            <Text style={styles.networkLabel}>NETWORK STATUS</Text>
+            <Text style={styles.networkLabel}>{t('networkStatus')}</Text>
             <View style={styles.networkStatus}>
               <View style={styles.offlineDot} />
-              <Text style={styles.networkText}>Offline (Local Storage Active)</Text>
+              <Text style={styles.networkText}>{t('offlineStorage')}</Text>
             </View>
           </View>
 
           <View style={styles.queueCard}>
-            <Text style={styles.queueTitle}>Pending Data</Text>
+            <Text style={styles.queueTitle}>{t('pendingData')}</Text>
             
             <View style={styles.queueItem}>
               <MaterialIcons name="medical-services" size={24} color={colors.onSurfaceVariant} />
-              <Text style={styles.queueItemText}>Health Reports</Text>
+              <Text style={styles.queueItemText}>{t('healthReports')}</Text>
               <Text style={styles.queueItemCount}>{healthCases.length + 3}</Text>
             </View>
 
             <View style={styles.queueItem}>
               <MaterialIcons name="science" size={24} color={colors.onSurfaceVariant} />
-              <Text style={styles.queueItemText}>Water Tests</Text>
+              <Text style={styles.queueItemText}>{t('waterTests')}</Text>
               <Text style={styles.queueItemCount}>2</Text>
             </View>
 
             <View style={styles.queueItem}>
               <MaterialIcons name="water-drop" size={24} color={colors.onSurfaceVariant} />
-              <Text style={styles.queueItemText}>Groundwater Readings</Text>
+              <Text style={styles.queueItemText}>{t('groundwaterReadings')}</Text>
               <Text style={styles.queueItemCount}>1</Text>
             </View>
 
             <View style={styles.divider} />
             
             <View style={styles.totalRow}>
-              <Text style={styles.totalText}>Total Pending</Text>
+              <Text style={styles.totalText}>{t('totalPending')}</Text>
               <Text style={styles.totalCount}>{pendingSyncCount}</Text>
             </View>
           </View>
@@ -77,7 +79,7 @@ export default function SyncCenter() {
             ) : (
               <>
                 <MaterialIcons name="sync" size={24} color={colors.surface} />
-                <Text style={styles.syncBtnText}>SYNC NOW</Text>
+                <Text style={styles.syncBtnText}>{t('syncNow')}</Text>
               </>
             )}
           </TouchableOpacity>

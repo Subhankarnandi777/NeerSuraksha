@@ -54,7 +54,6 @@ CRITICAL_DEPTH_M = 12.0            # below this, shallow handpumps stop yielding
 DEFAULT_ALPHA = 0.10               # 90% prediction intervals
 
 
-<<<<<<< HEAD
 def evaluate_aquifer_trend(db, source) -> str:
     """Return a source trend for the legacy decision pipeline.
 
@@ -82,8 +81,6 @@ def evaluate_aquifer_trend(db, source) -> str:
     return "deepening" if change > 0 else "shallowing"
 
 
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 # =============================================================== QC / ingestion
 def flag_reading(level_raw: float, prev_values: Iterable[float] | None = None) -> str:
     """

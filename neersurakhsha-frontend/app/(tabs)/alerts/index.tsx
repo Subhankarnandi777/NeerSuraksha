@@ -30,7 +30,7 @@ export default function AlertsDashboard() {
           <TouchableOpacity style={styles.iconButton}>
             <MaterialIcons name="emergency" size={24} color={colors.primary} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>NEERSURAKSHA</Text>
+          <Text style={styles.headerTitle}>JALJEEVAN</Text>
           <TouchableOpacity style={styles.helpButton}>
             <MaterialIcons name="call" size={20} color={colors.primary} />
           </TouchableOpacity>
@@ -56,7 +56,7 @@ export default function AlertsDashboard() {
             <MaterialIcons name="priority-high" size={24} color={colors.error} />
             <Text style={styles.sectionTitle}>Critical Alerts</Text>
           </View>
-          
+
           <View style={[styles.alertsGrid, isTablet && { flexDirection: 'row', flexWrap: 'wrap' }]}>
             {/* Alert 1 */}
             <View style={[styles.alertCard, styles.alertCardCritical, isTablet && { width: '48%' }]}>
@@ -107,7 +107,7 @@ export default function AlertsDashboard() {
             <MaterialIcons name="sensors" size={24} color={colors.primary} />
             <Text style={styles.sectionTitle}>DWLR Network Status</Text>
           </View>
-          
+
           <View style={styles.card}>
             <View style={styles.networkHeader}>
               <View>
@@ -118,7 +118,7 @@ export default function AlertsDashboard() {
                 <MaterialIcons name="check-circle" size={32} color={colors.tertiary} />
               </View>
             </View>
-            
+
             <View style={styles.progressContainer}>
               <View style={styles.progressHeader}>
                 <Text style={styles.progressLabel}>Active Sensors</Text>
@@ -128,7 +128,7 @@ export default function AlertsDashboard() {
                 <View style={[styles.progressBarFill, { width: '94%' }]} />
               </View>
             </View>
-            
+
             <View style={styles.sensorIssues}>
               <View style={styles.sensorIssueOffline}>
                 <MaterialIcons name="wifi-off" size={18} color={colors.error} />
@@ -150,7 +150,7 @@ export default function AlertsDashboard() {
             <MaterialIcons name="analytics" size={24} color={colors.primary} />
             <Text style={styles.sectionTitle}>Rainfall vs. Disease Reports (7-Day)</Text>
           </View>
-          
+
           <View style={[styles.card, styles.chartCard]}>
             <View style={styles.chartArea}>
               <View style={styles.yAxis}>
@@ -196,13 +196,13 @@ export default function AlertsDashboard() {
             <MaterialIcons name="task-alt" size={24} color={colors.primary} />
             <Text style={styles.sectionTitle}>Action Protocol Checklist</Text>
           </View>
-          
+
           <View style={[styles.card, { padding: 0 }]}>
             {tasks.map((task, index) => (
-              <TouchableOpacity 
-                key={task.id} 
+              <TouchableOpacity
+                key={task.id}
                 style={[
-                  styles.taskRow, 
+                  styles.taskRow,
                   index !== tasks.length - 1 && styles.taskRowBorder,
                   task.critical && !task.completed && styles.taskRowCritical,
                   task.completed && styles.taskRowCompleted
@@ -212,7 +212,7 @@ export default function AlertsDashboard() {
               >
                 <View style={styles.checkboxContainer}>
                   <View style={[
-                    styles.checkbox, 
+                    styles.checkbox,
                     task.completed ? styles.checkboxChecked : styles.checkboxUnchecked,
                     task.critical && !task.completed && styles.checkboxCritical
                   ]}>

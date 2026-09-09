@@ -1,34 +1,25 @@
-<<<<<<< HEAD
 import React, { useState, useEffect, useMemo } from 'react';
-=======
-import React, { useState, useEffect } from 'react';
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
-import { View, StyleSheet, ScrollView, TouchableOpacity, TextInput, useWindowDimensions } from 'react-native';
+import { View, StyleSheet, ScrollView, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { useRouter } from 'expo-router';
 import { colors, spacing, radius } from '../../theme';
 import { useAppStore } from '../../store/main.store';
-import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+import { MaterialIcons } from '@expo/vector-icons';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Text } from '../../components/ui/Text';
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
+import { useLanguage } from '../../hooks/useLanguage';
 
 export default function Home() {
   const router = useRouter();
   const insets = useSafeAreaInsets();
-<<<<<<< HEAD
   const { sources, healthCases, fetchSources } = useAppStore();
+  const { t } = useLanguage();
   const [sourceId, setSourceId] = useState('');
-=======
-  const { sources, fetchSources } = useAppStore();
-  const [sourceId, setSourceId] = useState('');
-  const [testResult, setTestResult] = useState<'SAFE' | 'UNSAFE' | null>(null);
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 
   const { width } = useWindowDimensions();
   const isTablet = width >= 768;
 
-<<<<<<< HEAD
   // Matches the field-map safety rule. Pending ASHA reports are included before
   // sync so the dashboard never understates a developing cluster.
   const criticalSources = useMemo(() => sources.filter((source) => {
@@ -36,9 +27,6 @@ export default function Home() {
     const linkedCaseCount = source.healthCasesCount + pendingCases;
     return source.status === 'HIGH_RISK' || source.lastTestResult === 'Positive' || linkedCaseCount >= 3;
   }), [healthCases, sources]);
-=======
-  const highRiskSources = sources.filter(s => s.status === 'HIGH_RISK').length;
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 
   useEffect(() => {
     fetchSources();
@@ -50,31 +38,31 @@ export default function Home() {
       <View style={styles.header}>
         <View style={styles.headerTitleRow}>
           <MaterialIcons name="emergency" size={24} color={colors.primary} />
-          <Text variant="header" style={styles.headerTitleText}>NEERSURAKSHA</Text>
+          <Text variant="header" style={styles.headerTitleText}>JALJEEVAN</Text>
         </View>
         <TouchableOpacity style={styles.callHelpBtn} activeOpacity={0.8}>
-          <Text variant="caption" style={styles.callHelpText}>CALL FOR HELP</Text>
+          <Text variant="caption" style={styles.callHelpText}>{t('callForHelp')}</Text>
         </TouchableOpacity>
       </View>
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         {/* Page Title */}
         <View style={styles.titleSection}>
-          <Text variant="header" color="primary">Field Dashboard</Text>
-          <Text variant="body" color="onSurfaceVariant">মাঠৰ ডেশ্ববৰ্ড</Text>
+          <Text variant="header" color="primary">{t('fieldDashboard')}</Text>
+          <Text variant="body" color="onSurfaceVariant">{t('fieldDashboard')}</Text>
         </View>
 
         {/* Primary Action Button */}
         <View style={styles.primaryActionSection}>
-          <Button 
-            variant="secondary" 
+          <Button
+            variant="secondary"
             size="lg"
-            title="REPORT NEW CASE"
+            title={t('reportNewCase')}
             icon={<MaterialIcons name="add-alert" size={32} color={colors.onSecondary} />}
             onPress={() => router.push('/health-report')}
           />
           <Text variant="body" color="onSurfaceVariant" style={styles.primaryActionSub}>
-            নতুন গোচৰ দাখিল কৰক
+            {t('reportNewCase')}
           </Text>
         </View>
 
@@ -83,127 +71,57 @@ export default function Home() {
           {/* Card 1: New Cases */}
           <Card variant="rugged" style={[styles.gridCard, isTablet && { width: '31%' }]}>
             <View style={styles.cardHeader}>
-              <Text variant="caption" color="onSurfaceVariant">NEW CASES</Text>
+              <Text variant="caption" color="onSurfaceVariant">{t('newCases')}</Text>
               <MaterialIcons name="medical-services" size={20} color="rgba(22, 40, 57, 0.5)" />
             </View>
             <View style={styles.cardMetrics}>
               <Text style={styles.metricBig} color="primary">12</Text>
-              <Text variant="body" color="onSurfaceVariant">This Week</Text>
+              <Text variant="body" color="onSurfaceVariant">{t('thisWeek')}</Text>
             </View>
           </Card>
 
           {/* Card 2: Wells Tested */}
           <Card variant="rugged" style={[styles.gridCard, isTablet && { width: '31%' }]}>
             <View style={styles.cardHeader}>
-              <Text variant="caption" color="onSurfaceVariant">WELLS TESTED</Text>
+              <Text variant="caption" color="onSurfaceVariant">{t('wellsTested')}</Text>
               <MaterialIcons name="water-drop" size={20} color="rgba(22, 40, 57, 0.5)" />
             </View>
             <View style={styles.cardMetrics}>
               <Text style={styles.metricBig} color="primary">48</Text>
-              <Text variant="body" color="onSurfaceVariant">This Month</Text>
+              <Text variant="body" color="onSurfaceVariant">{t('thisMonth')}</Text>
             </View>
           </Card>
 
           {/* Card 3: Critical Sources */}
           <Card style={[styles.gridCard, isTablet && { width: '31%' }, { borderColor: colors.secondary, borderWidth: 2 }]}>
             <View style={styles.cardHeader}>
-              <Text variant="caption" style={{ color: colors.secondary }}>CRITICAL SOURCES</Text>
+              <Text variant="caption" style={{ color: colors.secondary }}>{t('criticalSources')}</Text>
               <MaterialIcons name="warning" size={20} color={colors.secondary} />
             </View>
             <View style={styles.cardMetrics}>
-<<<<<<< HEAD
               <Text style={[styles.metricBig, { color: colors.secondary }]}>{criticalSources.length}</Text>
-              <Text variant="body" color="onSurfaceVariant">{criticalSources.length === 1 ? 'Requires Action' : 'Require Action'}</Text>
-=======
-              <Text style={[styles.metricBig, { color: colors.secondary }]}>{highRiskSources}</Text>
-              <Text variant="body" color="onSurfaceVariant">Require Action</Text>
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
+              <Text variant="body" color="onSurfaceVariant">{criticalSources.length === 1 ? t('requiresAction') : t('requireAction')}</Text>
             </View>
           </Card>
         </View>
 
-<<<<<<< HEAD
         {/* Water Quality Test Button */}
         <View style={styles.testEntrySection}>
           <View style={styles.testEntryHeader}>
-            <Text variant="title" color="primary" style={styles.testEntryTitle}>Water Quality Test</Text>
-            <Text variant="body" color="onSurfaceVariant">পানীৰ গুণমান পৰীক্ষা</Text>
+            <Text variant="title" color="primary" style={styles.testEntryTitle}>{t('waterQualityTest')}</Text>
+            <Text variant="body" color="onSurfaceVariant">{t('waterQualityTest')}</Text>
           </View>
-          
+
           <Card variant="rugged" style={[styles.testEntryCard, isTablet && { maxWidth: 600, alignSelf: 'center', width: '100%' }]}>
             <Text variant="body" color="onSurfaceVariant" style={{ marginBottom: 16 }}>
               Record H₂S vial tests with photographic evidence and enter manual groundwater readings.
             </Text>
-            <Button 
-              title="START WATER TEST" 
-              variant="secondary" 
+            <Button
+              title={t('startWaterTest')}
+              variant="secondary"
               icon={<MaterialIcons name="science" size={24} color={colors.onSecondary} />}
               onPress={() => router.push('/water-test')}
             />
-=======
-        {/* H2S Vial Test Entry */}
-        <View style={styles.testEntrySection}>
-          <View style={styles.testEntryHeader}>
-            <Text variant="title" color="primary" style={styles.testEntryTitle}>H2S Vial Test Entry</Text>
-            <Text variant="body" color="onSurfaceVariant">H2S ভাইল পৰীক্ষাৰ ফলাফল</Text>
-          </View>
-          
-          <Card variant="rugged" style={[styles.testEntryCard, isTablet && { maxWidth: 600, alignSelf: 'center', width: '100%' }]}>
-            {/* Source ID Input */}
-            <View style={styles.inputGroup}>
-              <Text variant="caption" color="primary" style={{ marginBottom: 8 }}>Source ID (উৎস ID)</Text>
-              <TextInput 
-                style={styles.textInput}
-                placeholder="e.g. W-1234"
-                placeholderTextColor={colors.outline}
-                value={sourceId}
-                onChangeText={setSourceId}
-              />
-            </View>
-
-            {/* Test Result Binary Selection */}
-            <View style={styles.inputGroup}>
-              <Text variant="caption" color="primary" style={{ marginBottom: 8 }}>Test Result (পৰীক্ষাৰ ফলাফল)</Text>
-              <View style={styles.binarySelection}>
-                <TouchableOpacity 
-                  style={[
-                    styles.binaryBtn, 
-                    testResult === 'SAFE' ? styles.binaryBtnSafeActive : null
-                  ]}
-                  onPress={() => setTestResult('SAFE')}
-                  activeOpacity={0.8}
-                >
-                  <MaterialIcons name="check-circle" size={28} color={testResult === 'SAFE' ? colors.primary : colors.tertiaryContainer} />
-                  <Text variant="caption" style={{ color: testResult === 'SAFE' ? colors.primary : colors.tertiaryContainer, marginTop: 4 }}>SAFE (সুৰক্ষিত)</Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity 
-                  style={[
-                    styles.binaryBtn, 
-                    testResult === 'UNSAFE' ? styles.binaryBtnUnsafeActive : null
-                  ]}
-                  onPress={() => setTestResult('UNSAFE')}
-                  activeOpacity={0.8}
-                >
-                  <MaterialIcons name="cancel" size={28} color={testResult === 'UNSAFE' ? colors.error : colors.error} />
-                  <Text variant="caption" style={{ color: colors.error, marginTop: 4 }}>UNSAFE (অসুৰক্ষিত)</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-
-            {testResult && sourceId && (
-              <Button 
-                title="SUBMIT TEST" 
-                variant="primary" 
-                style={{ marginTop: spacing.md }}
-                onPress={() => {
-                  // Connect to the store or API here
-                  setSourceId('');
-                  setTestResult(null);
-                }}
-              />
-            )}
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
           </Card>
         </View>
 

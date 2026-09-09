@@ -1,25 +1,25 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Platform, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useState } from 'react';
-
-const LANGUAGES = [
-  { id: 'en', native: 'English', english: 'English' },
-  { id: 'hi', native: 'हिन्दी', english: 'Hindi' },
-  { id: 'as', native: 'অসমীয়া', english: 'Assamese' },
-  { id: 'brx', native: 'बर\'', english: 'Bodo' },
-  { id: 'kha', native: 'Khasi', english: 'Khasi' },
-  { id: 'lus', native: 'Mizo ṭawng', english: 'Mizo' },
-  { id: 'mni', native: 'ꯃꯤꯇꯩꯂꯣꯟ', english: 'Manipuri' }
-];
+import { useEffect, useState } from 'react';
+import { LANGUAGE_OPTIONS, resolveLanguageCode } from '../../constants/languages';
+import { useAppStore } from '../../store/main.store';
+import { useLanguage } from '../../hooks/useLanguage';
 
 export default function LanguageSelect() {
   const router = useRouter();
-  const [selectedLang, setSelectedLang] = useState<string | null>(null);
+  const language = useAppStore((state) => state.language);
+  const [selectedLang, setSelectedLang] = useState<string | null>(language);
+  const { setLanguage } = useAppStore();
+  const { t } = useLanguage();
+
+  useEffect(() => {
+    setSelectedLang(language);
+  }, [language]);
 
   const insets = useSafeAreaInsets();
 
@@ -29,31 +29,34 @@ export default function LanguageSelect() {
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <MaterialIcons name="emergency" size={24} color={colors.primary} />
-          <Text style={styles.brandText}>NEERSURAKSHA</Text>
+          <Text style={styles.brandText}>JALJEEVAN</Text>
         </View>
         <TouchableOpacity style={styles.callBtn}>
           <MaterialIcons name="call" size={16} color={colors.primary} />
-          <Text style={styles.callBtnText}>CALL FOR HELP</Text>
+          <Text style={styles.callBtnText}>{t('callForHelp')}</Text>
         </TouchableOpacity>
       </View>
 
       <View style={styles.container}>
         <View style={styles.textCenter}>
-          <Text style={styles.title}>Select your preferred language</Text>
-          <Text style={styles.subtitle}>अपनी पसंदीदा भाषा चुनें</Text>
+          <Text style={styles.title}>{t('selectLanguage')}</Text>
+          <Text style={styles.subtitle}>{t('chooseLanguage')}</Text>
         </View>
 
         <ScrollView contentContainerStyle={styles.grid}>
-          {LANGUAGES.map((lang) => {
+          {LANGUAGE_OPTIONS.map((lang) => {
             const isSelected = selectedLang === lang.id;
             return (
-              <TouchableOpacity 
+              <TouchableOpacity
                 key={lang.id}
                 style={[
-                  styles.card, 
+                  styles.card,
                   isSelected ? styles.cardSelected : styles.cardDefault
                 ]}
-                onPress={() => setSelectedLang(lang.id)}
+                onPress={() => {
+                  setSelectedLang(lang.id);
+                  void setLanguage(lang.id);
+                }}
                 activeOpacity={0.8}
               >
                 <Text style={styles.langNative}>{lang.native}</Text>
@@ -64,15 +67,26 @@ export default function LanguageSelect() {
         </ScrollView>
 
         <View style={styles.footer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[
               styles.continueBtn,
               !selectedLang && styles.continueBtnDisabled
             ]}
             disabled={!selectedLang}
-            onPress={() => router.push('/(onboarding)/login')}
+            onPress={async () => {
+              if (selectedLang) {
+                await setLanguage(resolveLanguageCode(selectedLang));
+              }
+
+              if (router.canGoBack()) {
+                router.back();
+                return;
+              }
+
+              router.push('/(onboarding)/login');
+            }}
           >
-            <Text style={styles.continueText}>CONTINUE</Text>
+            <Text style={styles.continueText}>{t('continue')}</Text>
             <MaterialIcons name="arrow-forward" size={24} color={colors.onPrimary} />
           </TouchableOpacity>
         </View>

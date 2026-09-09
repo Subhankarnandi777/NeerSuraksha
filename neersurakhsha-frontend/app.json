@@ -13,7 +13,6 @@
       }
     },
     "android": {
-      "usesCleartextTraffic": true,
       "adaptiveIcon": {
         "backgroundColor": "#ffffff"
       },
@@ -32,6 +31,10 @@
       "expo-location",
       "expo-font"
     ],
+    "extra": {
+      "EXPO_PUBLIC_SUPABASE_URL": "${EXPO_PUBLIC_SUPABASE_URL}",
+      "EXPO_PUBLIC_SUPABASE_ANON_KEY": "${EXPO_PUBLIC_SUPABASE_ANON_KEY}"
+    },
     "experiments": {
       "typedRoutes": true
     }

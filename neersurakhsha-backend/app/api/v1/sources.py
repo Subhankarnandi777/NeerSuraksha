@@ -1,12 +1,17 @@
 from typing import Any, List
-from fastapi import APIRouter, Depends, HTTPException
+
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.api import deps
 from app.models.water_source import WaterSource
-from app.schemas.water_source import WaterSource as WaterSourceSchema, WaterSourceCreate
+from app.schemas.water_source import (
+    WaterSource as WaterSourceSchema,
+    WaterSourceCreate,
+)
 
 router = APIRouter()
+
 
 @router.get("/", response_model=List[WaterSourceSchema])
 def read_sources(
@@ -19,6 +24,7 @@ def read_sources(
     """
     sources = db.query(WaterSource).offset(skip).limit(limit).all()
     return sources
+
 
 @router.post("/", response_model=WaterSourceSchema)
 def create_source(
@@ -40,15 +46,11 @@ def create_source(
         householdsUsing=source_in.householdsUsing,
         lastTestResult=source_in.lastTestResult,
         groundwaterTrend=source_in.groundwaterTrend,
-<<<<<<< HEAD
         health_cases_count=source_in.healthCasesCount,
         risk_explanation=source_in.riskExplanation,
-=======
-        healthCasesCount=source_in.healthCasesCount,
-        riskExplanation=source_in.riskExplanation,
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
-        recommendedAlternativeId=source_in.recommendedAlternativeId
+        recommendedAlternativeId=source_in.recommendedAlternativeId,
     )
+
     db.add(source)
     db.commit()
     db.refresh(source)

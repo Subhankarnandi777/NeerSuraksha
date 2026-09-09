@@ -8,7 +8,6 @@ pydantic-settings
 python-jose[cryptography]
 passlib[bcrypt]
 python-multipart
-<<<<<<< HEAD
+
 numpy
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
+

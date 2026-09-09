@@ -15,16 +15,16 @@ export default function Login() {
   const insets = useSafeAreaInsets();
   const isDesktop = width > 768;
   const setUserRole = useAppStore(state => state.setUserRole);
-  
+
   const [activeTab, setActiveTab] = useState<'login' | 'signup'>('login');
-  
+
   // Login fields
   const [loginRole, setLoginRole] = useState('ASHA Worker');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loginPasswordVisible, setLoginPasswordVisible] = useState(false);
   const [loading, setLoading] = useState(false);
-  
+
   // Signup fields
   const [signupName, setSignupName] = useState('');
   const [signupEmail, setSignupEmail] = useState('');
@@ -32,7 +32,7 @@ export default function Login() {
   const [signupPasswordVisible, setSignupPasswordVisible] = useState(false);
   const [signupRole, setSignupRole] = useState('ASHA Worker');
   const [roleModalVisible, setRoleModalVisible] = useState(false);
-  const [activeRoleField, setActiveRoleField] = useState<'login'|'signup'>('signup');
+  const [activeRoleField, setActiveRoleField] = useState<'login' | 'signup'>('signup');
   const rolesList = ['ASHA Worker', 'ANM', 'PHC/CHC Officer', 'PHED Officer', 'Admin'];
 
   const handleLoginSubmit = async () => {
@@ -42,7 +42,7 @@ export default function Login() {
       password: password,
     });
     setLoading(false);
-    
+
     if (error) {
       Alert.alert('Login Failed', error.message);
     } else {
@@ -57,7 +57,7 @@ export default function Login() {
       Alert.alert('Error', 'Please fill out all fields');
       return;
     }
-    
+
     setLoading(true);
     const { data, error } = await supabase.auth.signUp({
       email: signupEmail,
@@ -84,14 +84,14 @@ export default function Login() {
         phone: signupEmail, // mapping email to phone field for simplicity based on your schema
         role: signupRole,
       });
-      
+
       if (dbError) {
         Alert.alert('Auth Success, but DB Insert Failed', dbError.message + '\n\nMake sure the "users" table exists in your Supabase public schema and RLS policies allow inserts.');
         setLoading(false);
         return;
       }
     }
-    
+
     setLoading(false);
     Alert.alert('Success', 'Account created! You can now log in.');
     setActiveTab('login');
@@ -103,7 +103,7 @@ export default function Login() {
         {/* Left/Top Decor Image Area (Visible on larger screens or partially on mobile) */}
         {isDesktop && (
           <View style={styles.imageHalf}>
-            <Image 
+            <Image
               source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuClvyaCj9n2OpA8CQAlTJfVuVvf9lu4Z9nAhCXr1aANVS5rzc0qUjIVeaqLsBUfm3IeruN_U6wkLJQjKiQ0GNBygfC3QHXv-yEihG56Sr9_RbOmq3nYVyDTR1Tme0M3JBBezdR6wV4krqjMHh97eozwaXixQeXLcj2EdY_YKHS-JuX0WPlD6GkDgEWDDrgmAQZ3si0UNx2ToD6mBgXGnMDRuyZApIgY3H-LLD8zecIg3-26-A4_uXY' }}
               style={styles.bgImage}
               resizeMode="cover"
@@ -120,181 +120,181 @@ export default function Login() {
         <View style={styles.formHalf}>
           <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
             <View style={styles.formInner}>
-              
+
               <View style={styles.brandHeader}>
-            <MaterialIcons name="water-drop" size={40} color={colors.primary} />
-            <Text style={styles.brandText}>NEERSURAKSHA</Text>
-          </View>
+                <MaterialIcons name="water-drop" size={40} color={colors.primary} />
+                <Text style={styles.brandText}>JALJEEVAN</Text>
+              </View>
 
-          <View style={styles.cardBox}>
-            {/* Segmented Toggle */}
-            <View style={styles.toggleContainer}>
-              <TouchableOpacity 
-                style={[styles.toggleBtn, activeTab === 'login' && styles.toggleBtnActive]}
-                onPress={() => setActiveTab('login')}
-              >
-                <Text style={[styles.toggleText, activeTab === 'login' && styles.toggleTextActive]}>LOGIN</Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-                style={[styles.toggleBtn, activeTab === 'signup' && styles.toggleBtnActive]}
-                onPress={() => setActiveTab('signup')}
-              >
-                <Text style={[styles.toggleText, activeTab === 'signup' && styles.toggleTextActive]}>SIGN UP</Text>
-              </TouchableOpacity>
-            </View>
-
-            {/* Login Form */}
-            {activeTab === 'login' && (
-              <View style={styles.formContainer}>
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Role</Text>
-                  <TouchableOpacity style={styles.inputWrapper} onPress={() => { setActiveRoleField('login'); setRoleModalVisible(true); }}>
-                    <Text style={[styles.input, { textAlignVertical: 'center', paddingTop: 14 }]}>
-                      {loginRole}
-                    </Text>
-                    <MaterialIcons name="arrow-drop-down" size={24} color={colors.onSurfaceVariant} style={styles.inputIconRight} />
+              <View style={styles.cardBox}>
+                {/* Segmented Toggle */}
+                <View style={styles.toggleContainer}>
+                  <TouchableOpacity
+                    style={[styles.toggleBtn, activeTab === 'login' && styles.toggleBtnActive]}
+                    onPress={() => setActiveTab('login')}
+                  >
+                    <Text style={[styles.toggleText, activeTab === 'login' && styles.toggleTextActive]}>LOGIN</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={[styles.toggleBtn, activeTab === 'signup' && styles.toggleBtnActive]}
+                    onPress={() => setActiveTab('signup')}
+                  >
+                    <Text style={[styles.toggleText, activeTab === 'signup' && styles.toggleTextActive]}>SIGN UP</Text>
                   </TouchableOpacity>
                 </View>
 
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Email</Text>
-                  <View style={styles.inputWrapper}>
-                    <MaterialIcons name="email" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
-                    <TextInput 
-                      style={[styles.input, { paddingLeft: 40 }]} 
-                      placeholder="Enter your email" 
-                      placeholderTextColor="rgba(67, 71, 76, 0.5)"
-                      autoCapitalize="none"
-                      keyboardType="email-address"
-                      value={email}
-                      onChangeText={setEmail}
-                    />
-                  </View>
-                </View>
+                {/* Login Form */}
+                {activeTab === 'login' && (
+                  <View style={styles.formContainer}>
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Role</Text>
+                      <TouchableOpacity style={styles.inputWrapper} onPress={() => { setActiveRoleField('login'); setRoleModalVisible(true); }}>
+                        <Text style={[styles.input, { textAlignVertical: 'center', paddingTop: 14 }]}>
+                          {loginRole}
+                        </Text>
+                        <MaterialIcons name="arrow-drop-down" size={24} color={colors.onSurfaceVariant} style={styles.inputIconRight} />
+                      </TouchableOpacity>
+                    </View>
 
-                <View style={styles.inputGroup}>
-                  <View style={styles.labelRow}>
-                    <Text style={styles.label}>Password</Text>
-                  </View>
-                  <View style={styles.inputWrapper}>
-                    <MaterialIcons name="lock" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
-                    <TextInput 
-                      style={[styles.input, { paddingLeft: 40 }]} 
-                      placeholder="Enter password" 
-                      placeholderTextColor="rgba(67, 71, 76, 0.5)"
-                      secureTextEntry={!loginPasswordVisible}
-                      value={password}
-                      onChangeText={setPassword}
-                    />
-                    <TouchableOpacity 
-                      style={styles.inputIconRight} 
-                      onPress={() => setLoginPasswordVisible(!loginPasswordVisible)}
-                    >
-                      <MaterialIcons 
-                        name={loginPasswordVisible ? "visibility" : "visibility-off"} 
-                        size={20} 
-                        color={colors.onSurfaceVariant} 
-                      />
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Email</Text>
+                      <View style={styles.inputWrapper}>
+                        <MaterialIcons name="email" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
+                        <TextInput
+                          style={[styles.input, { paddingLeft: 40 }]}
+                          placeholder="Enter your email"
+                          placeholderTextColor="rgba(67, 71, 76, 0.5)"
+                          autoCapitalize="none"
+                          keyboardType="email-address"
+                          value={email}
+                          onChangeText={setEmail}
+                        />
+                      </View>
+                    </View>
+
+                    <View style={styles.inputGroup}>
+                      <View style={styles.labelRow}>
+                        <Text style={styles.label}>Password</Text>
+                      </View>
+                      <View style={styles.inputWrapper}>
+                        <MaterialIcons name="lock" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
+                        <TextInput
+                          style={[styles.input, { paddingLeft: 40 }]}
+                          placeholder="Enter password"
+                          placeholderTextColor="rgba(67, 71, 76, 0.5)"
+                          secureTextEntry={!loginPasswordVisible}
+                          value={password}
+                          onChangeText={setPassword}
+                        />
+                        <TouchableOpacity
+                          style={styles.inputIconRight}
+                          onPress={() => setLoginPasswordVisible(!loginPasswordVisible)}
+                        >
+                          <MaterialIcons
+                            name={loginPasswordVisible ? "visibility" : "visibility-off"}
+                            size={20}
+                            color={colors.onSurfaceVariant}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                      <Text style={styles.forgotText}>Forgot Password?</Text>
+                    </View>
+
+                    <TouchableOpacity style={styles.submitBtn} onPress={handleLoginSubmit} disabled={loading}>
+                      <Text style={styles.submitBtnText}>{loading ? 'LOGGING IN...' : 'LOGIN'}</Text>
                     </TouchableOpacity>
                   </View>
-                  <Text style={styles.forgotText}>Forgot Password?</Text>
-                </View>
+                )}
 
-                <TouchableOpacity style={styles.submitBtn} onPress={handleLoginSubmit} disabled={loading}>
-                  <Text style={styles.submitBtnText}>{loading ? 'LOGGING IN...' : 'LOGIN'}</Text>
-                </TouchableOpacity>
-              </View>
-            )}
+                {/* Sign Up Form */}
+                {activeTab === 'signup' && (
+                  <View style={styles.formContainer}>
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Full Name</Text>
+                      <View style={styles.inputWrapper}>
+                        <MaterialIcons name="badge" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
+                        <TextInput
+                          style={[styles.input, { paddingLeft: 40 }]}
+                          placeholder="Enter your name"
+                          placeholderTextColor="rgba(67, 71, 76, 0.5)"
+                          value={signupName}
+                          onChangeText={setSignupName}
+                        />
+                      </View>
+                    </View>
 
-            {/* Sign Up Form */}
-            {activeTab === 'signup' && (
-              <View style={styles.formContainer}>
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Full Name</Text>
-                  <View style={styles.inputWrapper}>
-                    <MaterialIcons name="badge" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
-                    <TextInput 
-                      style={[styles.input, { paddingLeft: 40 }]} 
-                      placeholder="Enter your name" 
-                      placeholderTextColor="rgba(67, 71, 76, 0.5)"
-                      value={signupName}
-                      onChangeText={setSignupName}
-                    />
-                  </View>
-                </View>
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Email</Text>
+                      <View style={styles.inputWrapper}>
+                        <MaterialIcons name="email" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
+                        <TextInput
+                          style={[styles.input, { paddingLeft: 40 }]}
+                          placeholder="Enter your email"
+                          placeholderTextColor="rgba(67, 71, 76, 0.5)"
+                          autoCapitalize="none"
+                          keyboardType="email-address"
+                          value={signupEmail}
+                          onChangeText={setSignupEmail}
+                        />
+                      </View>
+                    </View>
 
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Email</Text>
-                  <View style={styles.inputWrapper}>
-                    <MaterialIcons name="email" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
-                    <TextInput 
-                      style={[styles.input, { paddingLeft: 40 }]} 
-                      placeholder="Enter your email" 
-                      placeholderTextColor="rgba(67, 71, 76, 0.5)"
-                      autoCapitalize="none"
-                      keyboardType="email-address"
-                      value={signupEmail}
-                      onChangeText={setSignupEmail}
-                    />
-                  </View>
-                </View>
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Password</Text>
+                      <View style={styles.inputWrapper}>
+                        <MaterialIcons name="lock" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
+                        <TextInput
+                          style={[styles.input, { paddingLeft: 40 }]}
+                          placeholder="Choose a password"
+                          placeholderTextColor="rgba(67, 71, 76, 0.5)"
+                          secureTextEntry={!signupPasswordVisible}
+                          value={signupPassword}
+                          onChangeText={setSignupPassword}
+                        />
+                        <TouchableOpacity
+                          style={styles.inputIconRight}
+                          onPress={() => setSignupPasswordVisible(!signupPasswordVisible)}
+                        >
+                          <MaterialIcons
+                            name={signupPasswordVisible ? "visibility" : "visibility-off"}
+                            size={20}
+                            color={colors.onSurfaceVariant}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
 
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Password</Text>
-                  <View style={styles.inputWrapper}>
-                    <MaterialIcons name="lock" size={20} color={colors.onSurfaceVariant} style={styles.inputIconLeft} />
-                    <TextInput 
-                      style={[styles.input, { paddingLeft: 40 }]} 
-                      placeholder="Choose a password" 
-                      placeholderTextColor="rgba(67, 71, 76, 0.5)"
-                      secureTextEntry={!signupPasswordVisible}
-                      value={signupPassword}
-                      onChangeText={setSignupPassword}
-                    />
-                    <TouchableOpacity 
-                      style={styles.inputIconRight} 
-                      onPress={() => setSignupPasswordVisible(!signupPasswordVisible)}
-                    >
-                      <MaterialIcons 
-                        name={signupPasswordVisible ? "visibility" : "visibility-off"} 
-                        size={20} 
-                        color={colors.onSurfaceVariant} 
-                      />
+                    <View style={styles.inputGroup}>
+                      <Text style={styles.label}>Role Request</Text>
+                      <TouchableOpacity style={styles.inputWrapper} onPress={() => { setActiveRoleField('signup'); setRoleModalVisible(true); }}>
+                        <Text style={[styles.input, { textAlignVertical: 'center', paddingTop: 14 }]}>
+                          {signupRole}
+                        </Text>
+                        <MaterialIcons name="arrow-drop-down" size={24} color={colors.onSurfaceVariant} style={styles.inputIconRight} />
+                      </TouchableOpacity>
+                    </View>
+
+                    <TouchableOpacity style={styles.submitBtnPrimary} onPress={handleSignupSubmit} disabled={loading}>
+                      <Text style={styles.submitBtnText}>{loading ? 'CREATING...' : 'REGISTER'}</Text>
                     </TouchableOpacity>
                   </View>
-                </View>
+                )}
 
-                <View style={styles.inputGroup}>
-                  <Text style={styles.label}>Role Request</Text>
-                  <TouchableOpacity style={styles.inputWrapper} onPress={() => { setActiveRoleField('signup'); setRoleModalVisible(true); }}>
-                    <Text style={[styles.input, { textAlignVertical: 'center', paddingTop: 14 }]}>
-                      {signupRole}
-                    </Text>
-                    <MaterialIcons name="arrow-drop-down" size={24} color={colors.onSurfaceVariant} style={styles.inputIconRight} />
-                  </TouchableOpacity>
-                </View>
+                {activeTab === 'login' && (
+                  <View style={styles.registerPrompt}>
+                    <Text style={styles.registerPromptText}>Don't have an account? <Text style={styles.registerPromptLink} onPress={() => setActiveTab('signup')}>Register as a New User</Text></Text>
+                  </View>
+                )}
+              </View>
 
-                <TouchableOpacity style={styles.submitBtnPrimary} onPress={handleSignupSubmit} disabled={loading}>
-                  <Text style={styles.submitBtnText}>{loading ? 'CREATING...' : 'REGISTER'}</Text>
+              {/* Emergency Contact */}
+              <View style={styles.emergencyContainer}>
+                <TouchableOpacity style={styles.emergencyBtn}>
+                  <MaterialIcons name="emergency" size={16} color={colors.error} />
+                  <Text style={styles.emergencyText}>Emergency Contact</Text>
                 </TouchableOpacity>
+                <Text style={styles.versionText}>v1.0.4 Civic Build</Text>
               </View>
-            )}
-
-            {activeTab === 'login' && (
-              <View style={styles.registerPrompt}>
-                <Text style={styles.registerPromptText}>Don't have an account? <Text style={styles.registerPromptLink} onPress={() => setActiveTab('signup')}>Register as a New User</Text></Text>
-              </View>
-            )}
-          </View>
-
-          {/* Emergency Contact */}
-          <View style={styles.emergencyContainer}>
-            <TouchableOpacity style={styles.emergencyBtn}>
-              <MaterialIcons name="emergency" size={16} color={colors.error} />
-              <Text style={styles.emergencyText}>Emergency Contact</Text>
-            </TouchableOpacity>
-            <Text style={styles.versionText}>v1.0.4 Civic Build</Text>
-          </View>
             </View>
           </ScrollView>
         </View>
@@ -309,7 +309,7 @@ export default function Login() {
               data={rolesList}
               keyExtractor={(item) => item}
               renderItem={({ item }) => (
-                <TouchableOpacity 
+                <TouchableOpacity
                   style={styles.modalItem}
                   onPress={() => {
                     if (activeRoleField === 'signup') {
@@ -353,11 +353,11 @@ const styles = StyleSheet.create({
     backgroundColor: colors.surfaceVariant,
   },
   bgImage: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     opacity: 0.8,
   },
   bgOverlay: {
-    ...StyleSheet.absoluteFillObject,
+    ...StyleSheet.absoluteFill,
     backgroundColor: 'rgba(22, 40, 57, 0.4)', // Simplified gradient mix-blend
   },
   bgTextContainer: {

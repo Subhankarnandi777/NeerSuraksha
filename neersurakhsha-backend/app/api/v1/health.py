@@ -1,17 +1,10 @@
 from typing import Any, List
-<<<<<<< HEAD
 from fastapi import APIRouter, Depends, HTTPException, status
-=======
-from fastapi import APIRouter, Depends
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 from sqlalchemy.orm import Session
 
 from app.api import deps
 from app.models.health_report import HealthCase
-<<<<<<< HEAD
 from app.models.water_source import WaterSource
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 from app.schemas.health_report import HealthCase as HealthCaseSchema, HealthCaseCreate
 
 router = APIRouter()
@@ -37,13 +30,9 @@ def create_health_case(
     """
     Report a new health case.
     """
-<<<<<<< HEAD
     source = db.query(WaterSource).filter(WaterSource.id == case_in.sourceId).first()
     if source is None:
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="The selected water source does not exist.")
-
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
     case = HealthCase(
         id=case_in.id,
         householdId=case_in.householdId,
@@ -59,11 +48,8 @@ def create_health_case(
         synced=True
     )
     db.add(case)
-<<<<<<< HEAD
     from app.engines.decision_engine import recompute_source_status
     recompute_source_status(db, source, case)
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
     db.commit()
     db.refresh(case)
     return case

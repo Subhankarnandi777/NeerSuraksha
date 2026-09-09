@@ -12,7 +12,7 @@ export function useNetwork() {
         const networkState = await Network.getNetworkStateAsync();
         if (isMounted) {
           // isInternetReachable can be null on some platforms initially
-          setIsOnline(networkState.isConnected && networkState.isInternetReachable !== false);
+          setIsOnline(Boolean(networkState.isConnected) && networkState.isInternetReachable !== false);
         }
       } catch (error) {
         console.warn('Network check failed', error);

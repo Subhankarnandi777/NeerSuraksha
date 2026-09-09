@@ -1,10 +1,13 @@
 import { create } from 'zustand';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 import { WaterSource } from '../types/source';
 import { HealthCase } from '../types/health';
 import { supabase } from '../lib/supabase';
+import { DEFAULT_LANGUAGE, type LanguageCode, resolveLanguageCode } from '../constants/languages';
 
 const API_BASE_URL = process.env.EXPO_PUBLIC_API_BASE_URL;
+const LANGUAGE_STORAGE_KEY = 'jaljeevan_language';
 
 if (!API_BASE_URL) {
   console.error("FATAL ERROR: EXPO_PUBLIC_API_BASE_URL is not set in environment variables!");
@@ -16,22 +19,18 @@ interface AppState {
   userName: string;
   userPhone: string;
   villageName: string;
+  language: LanguageCode;
   sources: WaterSource[];
-<<<<<<< HEAD
   selectedHealthSourceId: string;
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
   healthCases: HealthCase[];
   pendingSyncCount: number;
   setUserRole: (role: string) => void;
   setUserName: (name: string) => void;
   setUserPhone: (phone: string) => void;
+  setLanguage: (language: LanguageCode) => Promise<void>;
   addHealthCase: (healthCase: HealthCase) => void;
   fetchSources: () => Promise<void>;
-<<<<<<< HEAD
   setSelectedHealthSourceId: (sourceId: string) => void;
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
   syncData: () => Promise<void>;
 }
 
@@ -42,20 +41,24 @@ export const useAppStore = create<AppState>((set) => ({
   userName: 'Anjali Sharma',
   userPhone: '+91 98765 43210',
   villageName: 'Brahmapur Char',
+  language: DEFAULT_LANGUAGE,
   sources: [],
-<<<<<<< HEAD
   selectedHealthSourceId: '',
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
   healthCases: [],
   pendingSyncCount: 0,
   setUserRole: (role) => set({ userRole: role }),
   setUserName: (name) => set({ userName: name }),
   setUserPhone: (phone) => set({ userPhone: phone }),
-<<<<<<< HEAD
+  setLanguage: async (language) => {
+    const nextLanguage = resolveLanguageCode(language);
+    set({ language: nextLanguage });
+    try {
+      await AsyncStorage.setItem(LANGUAGE_STORAGE_KEY, nextLanguage);
+    } catch (error) {
+      console.warn('Failed to persist selected language:', error);
+    }
+  },
   setSelectedHealthSourceId: (sourceId) => set({ selectedHealthSourceId: sourceId }),
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
   addHealthCase: (newCase) => set((state) => {
     const newCaseUnsynced = { ...newCase, synced: false };
     return {
@@ -115,14 +118,10 @@ export const useAppStore = create<AppState>((set) => ({
         body: JSON.stringify(payload)
       });
 
-<<<<<<< HEAD
       if (!response.ok) {
         const detail = await response.text();
         throw new Error(detail || `Sync failed (${response.status})`);
       }
-=======
-      if (!response.ok) throw new Error('Sync failed');
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
       const data = await response.json();
 
       set((state) => ({
@@ -136,11 +135,8 @@ export const useAppStore = create<AppState>((set) => ({
       }));
     } catch (error) {
       console.error('Failed to sync data:', error);
-<<<<<<< HEAD
       // Leave the reports marked as unsynced so a future sync can retry.
       throw error;
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
     }
   }
 }));

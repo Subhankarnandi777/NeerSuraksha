@@ -8,9 +8,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { useAppStore } from '../../store/main.store';
 import { useRouter } from 'expo-router';
 import { supabase } from '../../lib/supabase';
+import { useLanguage } from '../../hooks/useLanguage';
 
 export default function Profile() {
   const { userRole, userName, userPhone, villageName, setUserName, setUserPhone } = useAppStore();
+  const { t } = useLanguage();
   const insets = useSafeAreaInsets();
   const router = useRouter();
   
@@ -67,7 +69,7 @@ export default function Profile() {
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Account Profile</Text>
+        <Text style={styles.headerTitle}>{t('accountProfile')}</Text>
         <TouchableOpacity onPress={() => setIsEditing(!isEditing)} style={styles.editIconBtn}>
           <MaterialIcons name={isEditing ? "close" : "edit"} size={24} color={colors.primary} />
         </TouchableOpacity>
@@ -97,12 +99,12 @@ export default function Profile() {
 
         {/* Details Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Contact Details</Text>
+          <Text style={styles.sectionTitle}>{t('contactDetails')}</Text>
           <View style={styles.detailBox}>
             <View style={styles.detailRow}>
               <MaterialIcons name="call" size={20} color={colors.onSurfaceVariant} />
               <View style={styles.detailContent}>
-                <Text style={styles.detailLabel}>Registered Mobile / Email</Text>
+                <Text style={styles.detailLabel}>{t('registeredMobile')}</Text>
                 {isEditing ? (
                   <TextInput 
                     style={styles.editInputSmall} 
@@ -121,7 +123,7 @@ export default function Profile() {
             <View style={styles.detailRow}>
               <MaterialIcons name="location-on" size={20} color={colors.onSurfaceVariant} />
               <View style={styles.detailContent}>
-                <Text style={styles.detailLabel}>Assigned Region</Text>
+                <Text style={styles.detailLabel}>{t('assignedRegion')}</Text>
                 <Text style={styles.detailValue}>{villageName}</Text>
               </View>
             </View>
@@ -130,15 +132,15 @@ export default function Profile() {
 
         {/* Actions Section */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Account Actions</Text>
+          <Text style={styles.sectionTitle}>{t('accountActions')}</Text>
           <TouchableOpacity style={styles.actionBtn}>
             <MaterialIcons name="security" size={24} color={colors.primary} />
-            <Text style={styles.actionBtnText}>Change PIN</Text>
+            <Text style={styles.actionBtnText}>{t('changePin')}</Text>
             <MaterialIcons name="chevron-right" size={24} color={colors.outline} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.actionBtn}>
+          <TouchableOpacity style={styles.actionBtn} onPress={() => router.push('/(onboarding)/language')}>
             <MaterialIcons name="g-translate" size={24} color={colors.primary} />
-            <Text style={styles.actionBtnText}>Change Language</Text>
+            <Text style={styles.actionBtnText}>{t('changeLanguage')}</Text>
             <MaterialIcons name="chevron-right" size={24} color={colors.outline} />
           </TouchableOpacity>
         </View>
@@ -146,13 +148,13 @@ export default function Profile() {
         {isEditing && (
           <TouchableOpacity style={styles.saveBtn} onPress={handleSaveProfile} disabled={saving}>
             <MaterialIcons name="save" size={24} color={colors.onPrimary} />
-            <Text style={styles.saveBtnText}>{saving ? 'SAVING...' : 'SAVE CHANGES'}</Text>
+            <Text style={styles.saveBtnText}>{saving ? t('saving') : t('saveChanges')}</Text>
           </TouchableOpacity>
         )}
 
         <TouchableOpacity style={styles.logoutBtn} onPress={handleLogout}>
           <MaterialIcons name="logout" size={24} color={colors.error} />
-          <Text style={styles.logoutBtnText}>LOG OUT</Text>
+          <Text style={styles.logoutBtnText}>{t('logOut')}</Text>
         </TouchableOpacity>
         
       </ScrollView>

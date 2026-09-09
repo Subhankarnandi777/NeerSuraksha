@@ -1,11 +1,10 @@
 from typing import Optional
-<<<<<<< HEAD
 from pydantic import field_validator
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8", extra="ignore")
+
     PROJECT_NAME: str = "NeerSurakhsha API"
     API_V1_STR: str = "/api/v1"
     
@@ -20,8 +19,6 @@ class Settings(BaseSettings):
     
     # CORS
     CORS_ORIGINS: list[str] = ["http://localhost:3000", "http://localhost:8081"]
-<<<<<<< HEAD
-
     @field_validator("DEBUG", mode="before")
     @classmethod
     def parse_debug_mode(cls, value):
@@ -29,8 +26,6 @@ class Settings(BaseSettings):
         if isinstance(value, str):
             return value.strip().lower() in {"1", "true", "yes", "on", "debug", "development"}
         return value
-=======
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
     
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -38,8 +33,5 @@ class Settings(BaseSettings):
             raise ValueError("SECRET_KEY must be set in non-debug mode.")
         if self.DEBUG and not self.SECRET_KEY:
             self.SECRET_KEY = "super-secret-key-change-me"
-    
-    class Config:
-        env_file = ".env"
 
 settings = Settings()

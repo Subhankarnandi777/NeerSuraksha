@@ -4,9 +4,11 @@ import { useFonts as useInterFonts, Inter_400Regular, Inter_600SemiBold, Inter_7
 import { useFonts as useMontserratFonts, Montserrat_600SemiBold, Montserrat_700Bold, Montserrat_800ExtraBold } from '@expo-google-fonts/montserrat';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { supabase } from '../lib/supabase';
 import { useAppStore } from '../store/main.store';
+import { resolveLanguageCode } from '../constants/languages';
 
 // Prevent splash screen from hiding automatically
 SplashScreen.preventAutoHideAsync();
@@ -39,6 +41,15 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (!loaded) return;
+
+    AsyncStorage.getItem('jaljeevan_language')
+      .then((storedLanguage) => {
+        if (storedLanguage) {
+          const nextLanguage = resolveLanguageCode(storedLanguage);
+          useAppStore.getState().setLanguage(nextLanguage);
+        }
+      })
+      .catch(() => undefined);
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {

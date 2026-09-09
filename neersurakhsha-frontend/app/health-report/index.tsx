@@ -1,15 +1,10 @@
-<<<<<<< HEAD
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-=======
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 import { useRouter } from 'expo-router';
 import { colors } from '../../theme/colors';
 import { typography } from '../../theme/typography';
 import { spacing } from '../../theme/spacing';
 import { MaterialIcons } from '@expo/vector-icons';
-<<<<<<< HEAD
 import { useEffect, useState, type ComponentProps } from 'react';
 import { useAppStore } from '../../store/main.store';
 import { HealthCase } from '../../types/health';
@@ -48,57 +43,10 @@ export default function HealthReport() {
     };
     addHealthCase(newCase);
     syncData().catch((error) => console.error('Auto-sync failed:', error));
-=======
-import { useState } from 'react';
-import { useAppStore } from '../../store/main.store';
-import { HealthCase } from '../../types/health';
-
-const SYMPTOMS = [
-  'Diarrhoea', 'Vomiting', 'Fever', 'Stomach pain', 'Jaundice', 'Other'
-];
-
-export default function HealthReport() {
-  const router = useRouter();
-  const { villageName, addHealthCase, sources, syncData } = useAppStore();
-  
-  const [householdId, setHouseholdId] = useState('');
-  const [patientName, setPatientName] = useState('');
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
-  // Automatically select the first real source ID from the database to prevent Foreign Key errors
-  const [sourceId, setSourceId] = useState(sources.length > 0 ? sources[0].id : '');
-
-  const toggleSymptom = (s: string) => {
-    setSelectedSymptoms(prev => 
-      prev.includes(s) ? prev.filter(x => x !== s) : [...prev, s]
-    );
-  };
-
-  const handleSubmit = () => {
-    const newCase: HealthCase = {
-      id: Math.random().toString(36).substr(2, 9),
-      householdId,
-      patientName,
-      age: 25,
-      gender: 'Other',
-      village: villageName,
-      date: new Date().toISOString(),
-      symptoms: selectedSymptoms,
-      severity: 'Moderate',
-      sourceId,
-      notes: '',
-      synced: false
-    };
-    addHealthCase(newCase);
-    
-    // Automatically attempt to sync to DB immediately
-    syncData().catch(e => console.error('Auto-sync failed:', e));
-    
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
     router.replace('/(tabs)/home');
   };
 
   return (
-<<<<<<< HEAD
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
       <KeyboardAvoidingView style={styles.container} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <View style={styles.header}>
@@ -146,95 +94,10 @@ export default function HealthReport() {
 
         <View style={styles.footer}><TouchableOpacity style={[styles.submitBtn, !hasRequiredFields && styles.submitBtnDisabled]} onPress={handleSubmit} accessibilityRole="button"><Text style={styles.submitBtnText}>Submit health report</Text><MaterialIcons name="arrow-forward" size={20} color={colors.onPrimary} /></TouchableOpacity></View>
       </KeyboardAvoidingView>
-=======
-    <SafeAreaView style={styles.safeArea}>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.iconButton}>
-            <MaterialIcons name="arrow-back" size={24} color={colors.primary} />
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>Report Health Case</Text>
-        </View>
-
-        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-          
-          <View style={[styles.card, styles.hcBorder]}>
-            <View style={styles.sectionHeader}>
-              <MaterialIcons name="person" size={24} color={colors.primary} />
-              <Text style={styles.sectionTitle}>Patient Details</Text>
-            </View>
-            
-            <TextInput 
-              style={[styles.input, styles.hcBorderSecondary]} 
-              placeholder="Household ID (e.g., H-102)"
-              placeholderTextColor={colors.outline}
-              value={householdId}
-              onChangeText={setHouseholdId}
-            />
-            <TextInput 
-              style={[styles.input, styles.hcBorderSecondary]} 
-              placeholder="Patient Name (Optional)"
-              placeholderTextColor={colors.outline}
-              value={patientName}
-              onChangeText={setPatientName}
-            />
-          </View>
-
-          <View style={[styles.card, styles.hcBorder]}>
-            <View style={styles.sectionHeader}>
-              <MaterialIcons name="coronavirus" size={24} color={colors.primary} />
-              <Text style={styles.sectionTitle}>Symptoms</Text>
-            </View>
-            <View style={styles.symptomsGrid}>
-              {SYMPTOMS.map(s => (
-                <TouchableOpacity 
-                  key={s} 
-                  style={[
-                    styles.symptomChip, 
-                    selectedSymptoms.includes(s) ? styles.symptomChipActive : styles.symptomChipInactive,
-                  ]}
-                  onPress={() => toggleSymptom(s)}
-                >
-                  <Text style={[
-                    styles.symptomText,
-                    selectedSymptoms.includes(s) && styles.symptomTextActive
-                  ]}>{s}</Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
-
-          <View style={[styles.card, styles.hcBorder]}>
-            <View style={styles.sectionHeader}>
-              <MaterialIcons name="water-drop" size={24} color={colors.primary} />
-              <Text style={styles.sectionTitle}>Primary Water Source</Text>
-            </View>
-            <Text style={styles.caption}>Critical: Every health report must link to a water source.</Text>
-            
-            <TouchableOpacity 
-              style={[styles.sourceSelector, styles.hcBorderPrimary, styles.hcShadowPrimary]}
-              onPress={() => router.push('/health-report/select-source')}
-            >
-              <MaterialIcons name="water" size={24} color={colors.primary} />
-              <Text style={styles.sourceName}>{sources.find(s => s.id === sourceId)?.name || 'Select Source'}</Text>
-              <MaterialIcons name="chevron-right" size={24} color={colors.primary} />
-            </TouchableOpacity>
-          </View>
-
-        </ScrollView>
-
-        <View style={styles.footer}>
-          <TouchableOpacity style={[styles.submitBtn, styles.hcShadowDark]} onPress={handleSubmit}>
-            <Text style={styles.submitBtnText}>SUBMIT & LINK SOURCE</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
     </SafeAreaView>
   );
 }
 
-<<<<<<< HEAD
 function SectionTitle({ icon, title }: { icon: ComponentProps<typeof MaterialIcons>['name']; title: string }) {
   return <View style={styles.sectionHeader}><View style={styles.sectionIcon}><MaterialIcons name={icon} size={21} color={colors.primary} /></View><Text style={styles.sectionTitle}>{title}</Text></View>;
 }
@@ -249,161 +112,4 @@ const styles = StyleSheet.create({
   helperText: { marginTop: -4, marginBottom: 12, color: colors.onSurfaceVariant, fontFamily: 'Inter_400Regular', fontSize: 14 }, symptomsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 }, symptomChip: { minHeight: 44, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 5, paddingHorizontal: 14, paddingVertical: 10, borderRadius: 22, borderWidth: 1, borderColor: colors.outlineVariant, backgroundColor: colors.surfaceContainerLow }, symptomChipActive: { backgroundColor: colors.primary, borderColor: colors.primary }, symptomText: { color: colors.onSurfaceVariant, fontFamily: 'Inter_600SemiBold', fontSize: 14 }, symptomTextActive: { color: colors.onPrimary },
   notice: { flexDirection: 'row', gap: 8, alignItems: 'flex-start', marginBottom: 12, padding: 10, borderRadius: 10, backgroundColor: colors.errorContainer }, noticeText: { flex: 1, color: colors.onErrorContainer, fontFamily: 'Inter_600SemiBold', fontSize: 13, lineHeight: 19 }, sourceSelector: { minHeight: 68, flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12, borderWidth: 1, borderColor: colors.outline, borderRadius: 12, backgroundColor: colors.surfaceContainerLow }, sourceError: { borderColor: colors.error, borderWidth: 2 }, sourceIcon: { width: 40, height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center', backgroundColor: colors.primaryFixed }, sourceCopy: { flex: 1, minWidth: 0 }, sourceLabel: { color: colors.onSurfaceVariant, fontFamily: 'Inter_400Regular', fontSize: 12 }, sourceName: { marginTop: 2, color: colors.onSurface, fontFamily: 'Inter_700Bold', fontSize: 16 },
   footer: { paddingHorizontal: spacing.md, paddingVertical: 12, backgroundColor: colors.surface, borderTopWidth: 1, borderTopColor: colors.outlineVariant }, submitBtn: { minHeight: 52, maxWidth: 720, width: '100%', alignSelf: 'center', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 8, borderRadius: 12, backgroundColor: colors.primary }, submitBtnDisabled: { opacity: 0.6 }, submitBtnText: { color: colors.onPrimary, fontFamily: 'Inter_700Bold', fontSize: 16 },
-=======
-const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: colors.background,
-  },
-  container: {
-    flex: 1,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: spacing.edgeMargin,
-    height: 56,
-    backgroundColor: colors.surface,
-    borderBottomWidth: 2,
-    borderBottomColor: 'rgba(22, 40, 57, 0.1)',
-  },
-  iconButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 8,
-  },
-  headerTitle: {
-    ...typography.h3,
-    color: colors.primary,
-    fontSize: 20,
-  },
-  content: {
-    padding: spacing.edgeMargin,
-    paddingBottom: spacing.xl,
-    gap: 16,
-  },
-  card: {
-    backgroundColor: colors.surfaceContainerLowest,
-    padding: 20,
-    borderRadius: 8,
-  },
-  hcBorder: {
-    borderWidth: 2,
-    borderColor: 'rgba(22, 40, 57, 0.2)', // Soft border for cards
-  },
-  sectionHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-    marginBottom: 16,
-  },
-  sectionTitle: {
-    ...typography.h3,
-    fontSize: 18,
-    color: colors.primary,
-  },
-  input: {
-    backgroundColor: colors.surfaceContainerLow,
-    borderRadius: 8,
-    padding: 16,
-    marginBottom: 12,
-    fontFamily: 'Inter_400Regular',
-    fontSize: 16,
-    color: colors.onSurface,
-  },
-  hcBorderSecondary: {
-    borderWidth: 1,
-    borderColor: colors.outlineVariant,
-  },
-  symptomsGrid: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: 12,
-  },
-  symptomChip: {
-    paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderRadius: 30,
-    borderWidth: 2,
-  },
-  symptomChipInactive: {
-    borderColor: colors.outlineVariant,
-    backgroundColor: colors.surfaceContainerLow,
-  },
-  symptomChipActive: {
-    backgroundColor: colors.secondary,
-    borderColor: colors.secondaryContainer,
-  },
-  symptomText: {
-    fontFamily: 'Inter_700Bold',
-    fontSize: 14,
-    color: colors.onSurfaceVariant,
-  },
-  symptomTextActive: {
-    color: colors.onSecondary,
-  },
-  caption: {
-    fontFamily: 'Inter_700Bold',
-    fontSize: 12,
-    color: colors.error,
-    marginBottom: 16,
-    backgroundColor: 'rgba(186, 26, 26, 0.1)',
-    padding: 8,
-    borderRadius: 4,
-  },
-  sourceSelector: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: colors.primaryFixed,
-    borderRadius: 8,
-  },
-  hcBorderPrimary: {
-    borderWidth: 2,
-    borderColor: colors.primary,
-  },
-  hcShadowPrimary: {
-    shadowColor: colors.primary,
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    elevation: 0,
-  },
-  sourceName: {
-    fontFamily: 'Montserrat_700Bold',
-    fontSize: 16,
-    color: colors.primary,
-    flex: 1,
-    marginLeft: 12,
-  },
-  footer: {
-    padding: spacing.edgeMargin,
-    backgroundColor: colors.surfaceContainerLowest,
-    borderTopWidth: 2,
-    borderTopColor: 'rgba(22, 40, 57, 0.1)',
-  },
-  submitBtn: {
-    backgroundColor: colors.primary,
-    padding: 16,
-    borderRadius: 8,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  hcShadowDark: {
-    shadowColor: colors.primaryContainer,
-    shadowOffset: { width: 4, height: 4 },
-    shadowOpacity: 1,
-    shadowRadius: 0,
-    elevation: 0,
-  },
-  submitBtnText: {
-    fontFamily: 'Inter_700Bold',
-    fontSize: 16,
-    letterSpacing: 1,
-    color: colors.onPrimary,
-  }
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
 });

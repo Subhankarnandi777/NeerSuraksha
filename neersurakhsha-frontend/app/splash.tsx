@@ -18,7 +18,7 @@ export default function Welcome() {
       <View style={styles.header}>
         <View style={styles.headerLeft}>
           <MaterialIcons name="emergency" size={24} color={colors.primary} />
-          <Text style={styles.brandText}>NEERSURAKSHA</Text>
+          <Text style={styles.brandText}>JALJEEVAN</Text>
         </View>
         {isDesktop && (
           <TouchableOpacity style={[styles.actionBtn, { paddingVertical: 8, paddingHorizontal: 16, marginTop: 0 }]}>
@@ -35,7 +35,7 @@ export default function Welcome() {
             <Text style={styles.heroDesc}>
               A rugged, reliable platform bridging advanced health technology with the landscapes of North East India to safeguard vital water resources.
             </Text>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.actionBtn}
               activeOpacity={0.8}
               onPress={() => router.push('/(onboarding)/language')}
@@ -43,7 +43,7 @@ export default function Welcome() {
               <Text style={styles.actionBtnText}>GET STARTED</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
+            <TouchableOpacity
               style={[styles.actionBtn, styles.actionBtnOutline]}
               activeOpacity={0.8}
               onPress={() => router.push('/(onboarding)/login')}
@@ -55,9 +55,9 @@ export default function Welcome() {
           {/* Hero Image / Graphic */}
           <View style={[styles.imageContainer, isDesktop && styles.imageContainerDesktop]}>
             <View style={styles.imagePlaceholder}>
-              <Image 
-                source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDasDk_SkK8a0NwM2-SI_o2MwD9CyouEIH9Yvn4bHcZuWjtDVaMlg-IRsZ1vUOTjPh5IZufd23ymqyLzQo-78lsvWTnw5jo1HEHdsOSSKPUJOKbzPB5NXrMh3FzhDcsmzU1zV_LToS-HFhB5Pq6s-DLnK9Tw1Sgc3txK5bT8gbG5pURvqDVRooCpjRXSg2M6rKBSV7U1IgBBzXJGob5qn28rYXDHf-j2AOTK7G8DTCUqTWDMzE-jBA' }} 
-                style={styles.heroImage} 
+              <Image
+                source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDasDk_SkK8a0NwM2-SI_o2MwD9CyouEIH9Yvn4bHcZuWjtDVaMlg-IRsZ1vUOTjPh5IZufd23ymqyLzQo-78lsvWTnw5jo1HEHdsOSSKPUJOKbzPB5NXrMh3FzhDcsmzU1zV_LToS-HFhB5Pq6s-DLnK9Tw1Sgc3txK5bT8gbG5pURvqDVRooCpjRXSg2M6rKBSV7U1IgBBzXJGob5qn28rYXDHf-j2AOTK7G8DTCUqTWDMzE-jBA' }}
+                style={styles.heroImage}
                 resizeMode="cover"
               />
               {/* Decorative overlay for rugged feel */}
@@ -73,7 +73,7 @@ export default function Welcome() {
         {/* Core Functions Bento Grid */}
         <View style={styles.functionsSection}>
           <Text style={styles.sectionTitle}>Core Functions</Text>
-          
+
           <View style={[styles.gridContainer, isDesktop && styles.gridContainerDesktop]}>
             <View style={[styles.functionCard, isDesktop && styles.functionCardDesktop]}>
               <View style={styles.functionHeader}>
@@ -112,7 +112,7 @@ export default function Welcome() {
             </View>
           </View>
         </View>
-        
+
         {/* Partnerships */}
         <View style={styles.partnershipsSection}>
           <Text style={styles.partnersTitle}>IN PARTNERSHIP WITH</Text>
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   imagePlaceholder: {
-    aspectRatio: 4/3,
+    aspectRatio: 4 / 3,
     backgroundColor: colors.surfaceContainerLow,
     borderWidth: 2,
     borderColor: 'rgba(22, 40, 57, 0.1)',

@@ -1,13 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView, Image } from 'react-native';
+import { View, StyleSheet, ScrollView } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Text } from '../../components/ui/Text';
 import { Card } from '../../components/ui/Card';
 import { colors, spacing, radius } from '../../theme';
+import { useLanguage } from '../../hooks/useLanguage';
 
 export default function AwarenessScreen() {
   const insets = useSafeAreaInsets();
+  const { t } = useLanguage();
 
   return (
     <View style={[styles.container, { paddingTop: insets.top }]}>
@@ -15,7 +17,7 @@ export default function AwarenessScreen() {
       <View style={styles.header}>
         <View style={styles.headerTitleRow}>
           <MaterialIcons name="menu-book" size={24} color={colors.primary} />
-          <Text variant="header" style={styles.headerTitleText}>Awareness</Text>
+          <Text variant="header" style={styles.headerTitleText}>{t('awareness')}</Text>
         </View>
       </View>
 

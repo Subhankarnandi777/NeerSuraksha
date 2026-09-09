@@ -84,7 +84,7 @@ export default function SafeWaterMap() {
           <TouchableOpacity style={styles.iconButton}>
             <MaterialIcons name="emergency" size={24} color={colors.primary} />
           </TouchableOpacity>
-          <Text style={styles.headerTitle}>NEERSURAKSHA</Text>
+          <Text style={styles.headerTitle}>JALJEEVAN</Text>
           <TouchableOpacity style={styles.helpButton}>
             <Text style={styles.helpButtonText}>CALL FOR HELP</Text>
           </TouchableOpacity>
@@ -342,24 +342,14 @@ const styles = StyleSheet.create({
   },
   fabContainer: {
     position: 'absolute',
-<<<<<<< HEAD
     top: 88,
-=======
-    bottom: 200,
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
     right: 16,
     zIndex: 30,
   },
   fab: {
-<<<<<<< HEAD
     width: 56,
     height: 56,
     borderRadius: 28,
-=======
-    width: 72,
-    height: 72,
-    borderRadius: 36,
->>>>>>> 559c10258b8859c7ff71cb71d7ac8eb51d12222f
     backgroundColor: colors.secondary,
     alignItems: 'center',
     justifyContent: 'center',
